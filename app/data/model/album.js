@@ -31,6 +31,7 @@ define((require, exports, module) => {
 		//image_flg==55 Injured, IA, Keisou (No awakening)
 		//image_flg==59 ???
 		//image_flg==63 Injured, Awakened, IA, Keisou {All}
+		console.log(this.image_flg,this.flg_max);
         return this.image_flg==this.flg_max ? 1 : 0
       },
 	  get yukata_img_flg () {
