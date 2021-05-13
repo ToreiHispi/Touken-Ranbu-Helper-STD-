@@ -158,11 +158,18 @@ a {
 .switch-tab a {
   display: block;
   float: left;
-  width: 16.6%;
   outline: none;
   text-align: center;
   border-top: 4px #3d382e solid;
   border-bottom: 4px #3d382e solid;
+}
+.switch-tab a:first-child:nth-last-child(6),
+.switch-tab a:first-child:nth-last-child(6) ~ a {
+  width: 16.6%;
+}
+.switch-tab a:first-child:nth-last-child(5),
+.switch-tab a:first-child:nth-last-child(5) ~ a {
+  width: 20%;
 }
 
 .switch-tab small {

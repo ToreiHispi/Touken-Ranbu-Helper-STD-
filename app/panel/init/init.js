@@ -4,7 +4,7 @@ chrome.devtools.inspectedWindow.eval('window.location.href', {}, function (resul
   if (result.indexOf('tohken') > -1) {
     // Create Panel
     chrome.devtools.panels.create(
-      '~TRH~',
+      '~TRH~ D',
       null,
       '/app/panel/index.html',
       function (panel) {
@@ -14,7 +14,7 @@ chrome.devtools.inspectedWindow.eval('window.location.href', {}, function (resul
           message: {
             title: 'Welcome to ~TRH~',
             message: 'Please find the new "Touken Ranbu Helper (STD EN)" tab in the Dev panel.',
-            context: 'Build version： 1.8.0'
+            context: 'Build version： Dev 1.3.0'
           }
         })
       }

@@ -9,8 +9,8 @@ define((require, exports, module) => {
           let getSwordId = updateData.sword_id
           let time = moment(parseValues(mutation.payload.updateData.finished_at))
           //let swordNameJPN = _.get(TRHMasterData.getMasterData('Sword'), [getSwordId, 'name'], 'None')
-		  let swordName = _.get(TRHMasterData.getMasterData('Sword'), [getSwordId, 'name'], 'None') == 'None' ? 'None' : TRH.SwordENGName[String(getSwordId)]['full']
-		  let timeout = _.get(state, ['config', 'timeout'], 3)*1000
+          let swordName = _.get(TRHMasterData.getMasterData('Sword'), [getSwordId, 'name'], 'None') == 'None' ? 'None' : (TRH.SwordENGName[String(getSwordId)] ? TRH.SwordENGName[String(getSwordId)]['full'] : _.get(TRHMasterData.getMasterData('Sword'), [getSwordId, 'name'], 'None'))
+          let timeout = _.get(state, ['config', 'timeout'], 3)*1000
           if (timeout<3000){
             timeout = 3000
           }
@@ -25,10 +25,10 @@ define((require, exports, module) => {
               title: `Smithing Result: ${swordName}`,
               message: `End Time: ${time.format('HH:mm:ss')}`,
               context: time.isBefore() ? "It's done!" : 'Please wait patiently or use a Help Token.',
-			  timeout: timeout,
+			        timeout: timeout,
               tag: getSwordId,
               renotify: true,
-			  disableAutoClose: false,
+			        disableAutoClose: false,
               swordBaseId: getSwordId,
               icon: `static/sword/${getSwordId}.png`
             })
@@ -39,7 +39,7 @@ define((require, exports, module) => {
               context: 'You need to re-enter the Forge to see the sword prediction.',
               tag: getSwordId,
               renotify: true,
-			  disableAutoClose: false,
+			        disableAutoClose: false,
               swordBaseId: getSwordId,
               icon: `static/sword/${getSwordId}.png`
             })

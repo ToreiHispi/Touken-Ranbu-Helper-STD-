@@ -26,7 +26,7 @@ define((require, exports, module) => {
               let sword = _.get(state, ['swords', 'serial', v.serial_id], {})
               return _.extend(v, {
                 //name: sword.name,
-				name: sword.sword_id ? TRH.SwordENGName[String(sword.sword_id)][String(sword.sword_id)] : '-',
+				        name: sword.sword_id ? (TRH.SwordENGName[String(sword.sword_id)] ? TRH.SwordENGName[String(sword.sword_id)][String(sword.sword_id)] : _.get(TRHMasterData.getMasterData('Sword'), [sword.sword_id, 'name'], '-')) : '-',
                 injury: sword.injury,
                 baseId: sword.baseId,
                 battleStatusText: ['Normal', 'Minor', 'Moderate', 'Severe', 'Retreated', 'Broken'][v.battleStatus]
@@ -79,35 +79,35 @@ define((require, exports, module) => {
               let equipstring = ''
               if(v.equip[1]!=null)
                 //equipstring += '['+_.get(TRHMasterData.getMasterData('Equip'), [v.equip[1], 'name'], '-') + '] '
-				equipstring += '['+(v.equip[1] ? TRH.EquipENGName[v.equip[1]] : '-')+'] '
+				        equipstring += '['+(v.equip[1] ? TRH.EquipENGName[v.equip[1]] : '-')+'] '
               if(v.equip[2]!=null)
                 //equipstring += '['+_.get(TRHMasterData.getMasterData('Equip'), [v.equip[2], 'name'], '-') + '] '
-				equipstring += '['+ (v.equip[2] ? TRH.EquipENGName[v.equip[2]] : '-') +'] '
+				        equipstring += '['+ (v.equip[2] ? TRH.EquipENGName[v.equip[2]] : '-') +'] '
               if(v.equip[3]!=null)
                 //equipstring += '['+_.get(TRHMasterData.getMasterData('Equip'), [v.equip[3], 'name'], '-') + '] '
-				equipstring += '['+(v.equip[3] ? TRH.EquipENGName[v.equip[3]] : '-')+'] '
+				        equipstring += '['+(v.equip[3] ? TRH.EquipENGName[v.equip[3]] : '-')+'] '
               return {
                 serial_id: v.serial_id,
                 //name: sword.name,
-				name: sword.sword_id ? TRH.SwordENGName[sword.sword_id][sword.sword_id] : '-',
+				        name: sword.sword_id ? (TRH.SwordENGName[sword.sword_id] ? TRH.SwordENGName[sword.sword_id][sword.sword_id] : _.get(TRHMasterData.getMasterData('Sword'), [sword.sword_id, 'name'], '-')) : '-',
                 equips: equipstring
               }
             })
             .values()
             .value()
           //let swordName = _.get(TRHMasterData.getMasterData('Sword'), [getSwordId, 'name'], '无')
-		  let swordName = (getSwordId>0 ? TRH.SwordENGName[getSwordId]['full'] : 'None')
+		      let swordName = (getSwordId>0 ? (TRH.SwordENGName[getSwordId] ? TRH.SwordENGName[getSwordId]['full'] : _.get(TRHMasterData.getMasterData('Sword'), [getSwordId, 'name'], '无')): 'None')
           if (getInstrumentId!=0){
             if(getSwordId!=0){
               //swordName+=" & "+ _.get(TRHMasterData.getMasterData('Consumable'), [getInstrumentId, 'name'], '-')
-			  swordName+=" & "+ getInstrumentId ? TRH.ItemENGName[getInstrumentId] : '-'
+			        swordName+=" & "+ getInstrumentId ? (TRH.ItemENGName[getInstrumentId] ? TRH.ItemENGName[getInstrumentId] : _.get(TRHMasterData.getMasterData('Consumable'), [getInstrumentId, 'name'], '-')) : '-'
             }else{
               //swordName= _.get(TRHMasterData.getMasterData('Consumable'), [getInstrumentId, 'name'], '-')
-			  swordName= getInstrumentId ? TRH.ItemENGName[getInstrumentId] : '-'
+			        swordName= getInstrumentId ? (TRH.ItemENGName[getInstrumentId] ? TRH.ItemENGName[getInstrumentId] : _.get(TRHMasterData.getMasterData('Consumable'), [getInstrumentId, 'name'], '-')) : '-'
               getSwordId = 'item'+getInstrumentId
             }
           }
-		  let getName = (getSwordId>0 ? TRH.SwordENGName[getSwordId][getSwordId] : 'None')
+		      let getName = (getSwordId>0 ? (TRH.SwordENGName[getSwordId] ? TRH.SwordENGName[getSwordId][getSwordId] : _.get(TRHMasterData.getMasterData('Sword'), [getSwordId, 'name'], '无')): 'None')
           if(mutation.type === 'battle/updateBattle'){
             store.commit('log/addBattleLog', {
               logId: `${state.sally.party_no}#${state.sally.episode_id}-${state.sally.field_id}@${moment(updateData.now).unix()}`,
@@ -123,16 +123,16 @@ define((require, exports, module) => {
             })
           }
           if(mutation.type === 'battle/updatePracticeBattle'){
-          store.commit('log/addPracticeLog', {
-            logId: `${state.sally.party_no}#${state.sally.target_id}@${moment(updateData.now).unix()}`,
-            party_no: state.sally.party_no,
-            enemy_id: state.sally.target_id,
-            enemy_name: updateData.enemy.name,
-            enemy_level: updateData.enemy.level,
-            rank: updateData.result.rank,
-            mvp: updateData.result.mvp,
-            now: updateData.now
-          })
+            store.commit('log/addPracticeLog', {
+              logId: `${state.sally.party_no}#${state.sally.target_id}@${moment(updateData.now).unix()}`,
+              party_no: state.sally.party_no,
+              enemy_id: state.sally.target_id,
+              enemy_name: updateData.enemy.name,
+              enemy_level: updateData.enemy.level,
+              rank: updateData.result.rank,
+              mvp: updateData.result.mvp,
+              now: updateData.now
+            })
           }
 		  
           let timeout = _.get(state, ['config', 'timeout'], 3)*1000
@@ -143,33 +143,34 @@ define((require, exports, module) => {
             if (playerParty.length) {
               if (swordName){
                 if (playerEquips.length) {
-				//Troop Loss
-                store.dispatch('notice/addNotice', {
-                  title: `Battle Report`,
-                  message: '<b style="font-size:100%;">[Troop Loss]</b><br>'+_.map(playerEquips, o => `${o.name} - ${o.equips}`).join('<br>'),
-                  context: ``,
-                  timeout: timeout*2,
-                  swordBaseId: getSwordId,
-                  icon: `static/sword/${getSwordId}.png`,
-                })
-				//Sword Damage
-				store.dispatch('notice/addNotice', {
-                  title: `Battle Report`,
-                  message: '<b style="font-size:100%;">[Sword Damage]</b><br>'+_.map(playerParty, o => `[${o.battleStatusText}] ${o.name} HP -${o.hp}`).join('<br>'),
-                  context: `Drop： ${swordName}`,
-                  timeout: timeout*2,
-                  swordBaseId: getSwordId,
-                  icon: `static/sword/${getSwordId}.png`,
-                })}
-                else {
-                store.dispatch('notice/addNotice', {
-                  title: `Battle Report`,
-                  message: _.map(playerParty, o => `[${o.battleStatusText}] ${o.name} HP -${o.hp}`).join('<br>'),
-                  context: `Drop： ${swordName}`,
-                  timeout: timeout*2,
-                  swordBaseId: getSwordId,
-                  icon: `static/sword/${getSwordId}.png`,
-                })}
+                  //Troop Loss
+                  store.dispatch('notice/addNotice', {
+                    title: `Battle Report`,
+                    message: '<b style="font-size:100%;">[Troop Loss]</b><br>'+_.map(playerEquips, o => `${o.name} - ${o.equips}`).join('<br>'),
+                    context: ``,
+                    timeout: timeout*2,
+                    swordBaseId: getSwordId,
+                    icon: `static/sword/${getSwordId}.png`,
+                  })
+                  //Sword Damage
+                  store.dispatch('notice/addNotice', {
+                    title: `Battle Report`,
+                    message: '<b style="font-size:100%;">[Sword Damage]</b><br>'+_.map(playerParty, o => `[${o.battleStatusText}] ${o.name} HP -${o.hp}`).join('<br>'),
+                    context: `Drop： ${swordName}`,
+                    timeout: timeout*2,
+                    swordBaseId: getSwordId,
+                    icon: `static/sword/${getSwordId}.png`,
+                  })
+                } else {
+                  store.dispatch('notice/addNotice', {
+                    title: `Battle Report`,
+                    message: _.map(playerParty, o => `[${o.battleStatusText}] ${o.name} HP -${o.hp}`).join('<br>'),
+                    context: `Drop： ${swordName}`,
+                    timeout: timeout*2,
+                    swordBaseId: getSwordId,
+                    icon: `static/sword/${getSwordId}.png`,
+                  })
+                }
               }
             }
             else if (playerEquips.length) {

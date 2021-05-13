@@ -5,7 +5,8 @@ define((require, exports, module) => {
     state () {
       return {
         parties: {},
-        inBattlePartyNo: null
+        inBattlePartyNo: null,
+		UIDs: {}
       }
     },
     mutations: {
@@ -24,7 +25,11 @@ define((require, exports, module) => {
         mergeModel(state.parties[partyNo], {
           totalLevel, averageLevel
         })
-      }
+      },
+      deleteParty (state, payload) {
+      let {partyNo} = payload
+      Vue.delete(state.parties, partyNo)
+	  }
     }
   }
 })

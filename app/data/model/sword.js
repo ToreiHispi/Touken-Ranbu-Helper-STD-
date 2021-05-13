@@ -12,6 +12,7 @@ define((require, exports, module) => {
       evol_num: null,
       symbol: null,
       hp: null,
+	  home_hp: null,
       hp_max: null,
       atk: null,
       def: null,
@@ -42,13 +43,13 @@ define((require, exports, module) => {
       inBattle: false,
       isEnemy: false,
       get name () {
-        return _.get(TRHMasterData.getMasterData('Sword'), [this.sword_id, 'name'], 'Not Available') + (_.get(TRHMasterData.getMasterData('Sword'), [this.sword_id, 'symbol'], 0) === 2 ? '·🌸' : '')
+        return _.get(TRHMasterData.getMasterData('Sword'), [this.sword_id, 'name'], 'Not Available') + (_.get(TRHMasterData.getMasterData('Sword'), [this.sword_id, 'symbol'], 0) === 2 ? '·🥝' : '')
       },
       get baseId () {
         return _.get(TRHMasterData.getMasterData('Sword'), [this.sword_id, 'baseId'], 0)
       },
       get injury () {
-        let hpp = (this.hp / this.hp_max)
+        let hpp = (this.hp / this.hp_max).toFixed(3)
         if (hpp > TRH.SwordInjury.MINOR_INJURY_PERCENTAGE) {
           return (TRH.SwordInjury.NONE)
         }
@@ -67,6 +68,7 @@ define((require, exports, module) => {
         let fatigue = this.fatigue
         if (this.inBattle && this.battleFatigue != null) {
           fatigue = this.battleFatigue
+		  this.fatigue = this.battleFatigue
         }
         if (!this.inBattle && fatigue < TRH.FATIGUE.VALUE.NORMAL && !_.isUndefined(this.recovered_at) && this.status!=3 && !this.isEnemy) {
           let now = Math.floor(Date.now() / 1000)
@@ -131,7 +133,7 @@ define((require, exports, module) => {
         if(this.symbol==1){
           if(this.sword_id==this.baseId)
             return 'Toku' //Toku
-          else return ['❇', 'Toku','Toku Ni', 'Toku San'][this.sword_id-this.baseId] //Toku Ni, San
+          else return ['❇', 'Toku', 'Toku Ni', 'Toku San'][this.sword_id-this.baseId]
         }
         //'❇' //Normal
         // '🌸' //Kiwame

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>TRH Final English</title>
+	<title>TRH Standard English</title>
 	<link rel="stylesheet" href="../../static/style/normalize.css">
 	<link rel="stylesheet" href="../../static/style/appmain.css">
 </head>
@@ -57,6 +57,17 @@
 			<!--<div class="menu-inner" @click="scroll('enemy-list')">
 			敵数値一覧
 			</div>-->
+		</router-link>
+		<router-link class="main-menu" to="/missevent">
+			<div class="menu-cover">
+			Missions &amp; Events
+			</div>
+			<div class="menu-inner" @click="scroll('mission')">
+			Missions
+			</div>
+			<div class="menu-inner" @click="scroll('events')">
+			Event
+			</div>
 		</router-link>
 		<router-link class="main-menu" to="/extra">
 			<div class="menu-cover">
@@ -280,6 +291,7 @@
 		</div>
 		</div>
 		<div class="title" id="practice">· PVP Practice ·</div>
+		<div style="float:left;">*Fatigue levels are just for show in this tool and do not actually apply to PVP battles. All enemy swords will be performing at Normal Fatigue levels.</div>
 		<div v-if="practice_enemy_party != null" v-for="enemy_sword in practice_enemy_party.slot" class="party-list">
 		<div v-if="enemy_sword.serial_id" class="touken-info">
 			<img :src="practice_enemy_sword[enemy_sword.serial_id].sword_id | sword-pattern" alt="空" class="pattern">
@@ -544,7 +556,7 @@
 			</thead>
 			<tbody>
 			<tr v-for="con in item.consumable" v-if="con.num">
-				<td>{{ con.name | convert-item-name }}</td>
+				<td>{{ con.consumable_id | convert-item-name }}</td>
 				<td>{{ con.num || '-' }}</td>
 				<td v-if="option.limits" v-text="con.limitNum || '-'"></td></td>
 			</tr>
@@ -591,7 +603,115 @@
 	</div>
 	</script>
 	
-	
+	<script id="missevent" type="text/template">
+	<div class="info-page">
+		<div class="logo"></div>
+		<div class="title" id="mission">· Mission List ·</div>
+		<div class="option">
+			<span class="switcher" :class="{active: !option.daily}" @click="option.daily = !option.daily">Daily</span>
+			<span class="switcher" :class="{active: !option.monthly}" @click="option.monthly = !option.monthly">Monthly</span>
+			<span class="switcher" :class="{active: !option.obj}" @click="option.obj = !option.obj">Objective</span>
+			<span v-if="eventID<0 && eventType!=3 && eventType!= 5" class="switcher" :class="{active: !option.event}" @click="option.event = !option.event">Event</span>
+		</div>
+		<div class="title" v-if="option.daily"><small>Daily</small><br></div>
+		<div class="data-table" v-if="mission.missions.daily">
+		<div class="container">
+			<table v-if="option.daily">
+				<thead>
+				<tr>
+					<th>No.</th>
+					<th>Progress</th>
+					<th>Status</th>
+				</tr>
+				</thead>
+				<tbody>
+				<tr v-for='did in mission.missions.daily'>
+				<td>{{did.mission_id}}</td>
+				<td>{{did.value}}</td>
+				<td v-if='did.status==3' style="color:purple;">{{did.status | mission-status }}</td>
+				<td v-else-if='did.status==2' style="color:green;">{{did.status | mission-status}}</td>
+				<td v-else>{{did.status | mission-status}}</td>
+				</tr>
+				</tbody>
+			</table>
+		</div>
+		</div>
+		<div class="title" v-if="option.monthly"><small>Monthly</small></div>
+		<div class="data-table" v-if="mission.missions.monthly">
+		<div class="container">
+			<table v-if="option.monthly">
+				<thead>
+				<tr>
+					<th>No.</th>
+					<th>Progress</th>
+					<th>Status</th>
+				</tr>
+				</thead>
+				<tbody>
+				<tr v-for='mid in mission.missions.monthly'>
+				<td>{{mid.mission_id}}</td>
+				<td>{{mid.value}}</td>
+				<td v-if='mid.status==3' style="color:purple;">{{mid.status | mission-status}}</td>
+				<td v-else-if='mid.status==2' style="color:green;">{{mid.status | mission-status}}</td>
+				<td v-else>{{mid.status | mission-status}}</td>
+				</tr>
+				</tbody>
+			</table>
+		</div>
+		</div>
+		<div class="title" v-if="option.obj"><small>Objective</small></div>
+		<div class="data-table" v-if="mission.missions.objective">
+		<div class="container">
+			<table v-if="option.obj">
+				<thead>
+				<tr>
+					<th>No.</th>
+					<th>Progress</th>
+					<th>Status</th>
+				</tr>
+				</thead>
+				<tbody>
+				<tr v-for='oid in mission.missions.objective'>
+				<td>{{oid.mission_id}}</td>
+				<td>{{oid.value}}</td>
+				<td v-if='oid.status==3' style="color:purple;">{{oid.status | mission-status}}</td>
+				<td v-else-if='oid.status==2' style="color:green;">{{oid.status | mission-status}}</td>
+				<td v-else>{{oid.status | mission-status}}</td>
+				</tr>
+				</tbody>
+			</table>
+		</div>
+		</div>
+		<div class="title" v-if="option.event"><small>Event</small></div>
+		<div class="data-table" v-if="mission.missions.Event">
+		<div class="container">
+			<table v-if="option.event">
+				<thead>
+				<tr>
+					<th>No.</th>
+					<th>Progress</th>
+					<th>Status</th>
+				</tr>
+				</thead>
+				<tbody>
+				<tr v-for='eid in mission.missions.Event'>
+				<td>{{eid.mission_id}}</td>
+				<td>{{eid.value}}</td>
+				<td v-if='eid.status==3' style="color:purple;">{{eid.status | mission-status}}</td>
+				<td v-else-if='eid.status==2' style="color:green;">{{eid.status | mission-status}}</td>
+				<td v-else>{{eid.status | mission-status}}</td>
+				</tr>
+				</tbody>
+			</table>
+		</div>
+		</div>
+		
+		<div class="title" id="events">· Event ·</div>
+		<div style="text-align:center;">
+		<span class="title" v-if="eventType"><small>{{event.event_info.name | convert-event-name}}</small></span>
+		</div>
+	</div>
+	</script>
 	
 	<script id="extra" type="text/template">
 	<div>
@@ -621,7 +741,7 @@
 				<td>{{ forge.steel || '-' }}</td>
 				<td>{{ forge.coolant || '-' }}</td>
 				<td>{{ forge.file || '-' }}</td>
-				<td>{{ forge.consumable_id | item-name-format | convert-item-name}}</td>
+				<td>{{ forge.consumable_id | convert-item-name}}</td>
 				<td>{{ forge.finished_at | MMDDhhmmss }}</td>
 			</tr>
 			</tbody>
@@ -800,97 +920,96 @@
 				<span class="switcher" :class="{active: !expand}" @click="expand = !expand">Version History</span>
 			</div>
 			<div class="container" v-if="expand">
-
-			<li>
-				<b>版本：v1.1.9</b>
-				<p>修复花札中毒箭显示破坏的bug</p>
-				<p>修复联队战的各种bug</p>
-				<p>【鉴于现役背锅的两人越来越咸鱼，以后的更新可能会越来越少了，不出什么大的幺蛾子请各位尽量用旧版本苟住</p>
-			</li>
-			<li>
-				<b>版本：v1.1.8</b>
-				<p>增加了兔子活动boss点的位置剧透（不过一年就一回呀）</p>
-				<p>锻刀加速情况修复</p>
-				<p>各种记录的bug修复：不开提醒也可以有记录了</p>
-				<p>部队下拉菜单可以显示队伍情况（远征/出阵）</p>
-				<p>习合时更新刀帐列表</p>
-				<p>聚乐第出阵状态</p>
-			</li>
-			<li>
-				<b>版本：v1.1.7</b>
-				<p>修正了“垃圾ts增添数据”而导致婶婶忙崩溃的bug</p>
-				<p>增加了稀有刀掉落提醒，可以与正常战报同时使用</p>
-			</li>
-			<li>
-				<b>Version:v1.1.6</b>
-				<p>增加内番记录</p>
-				<p>增加战报持续时长设定</p>
-				<p>修正疲劳49以下刀剑远征时疲劳自动回复的bug</p>
-				<p>增加演练对方阵容剧透疲劳度</p>
-				<p>增加全刀帐直接导出</p>
-				<p>【垃圾ts使我兴致全无江户城点种类统计无限期咕咕咕】</p>
-			</li>
-			<li>
-				<b>Version:v1.1.5</b>
-				<p>预备移动刀帐位置&添加远征计算器</p>
-				<p>修正平均等级</p>
-				<p>增加刀名魔改</p>
-				<p>花札乐器掉落&修正焙烙玉及毒矢显示问题</p>
-			</li>
-			<li>
-				<b>Version:v1.1.4.1</b>
-				<p>修正战扩地图</p>
-				<p>修正修行数据读取问题</p>
-				<p>修正刀装做成失败问题</p>
-				<p>修正手入刀纹极普未分问题</p>
-			</li>
-			<li>
-				<b>Version:v1.1.4</b>
-				<p>记录导出</p>
-				<p>远征提醒和内番提醒bug修正</p>
-				<p>战报增加刀装破坏提示</p>
-				<p>增加索敌阵型提示</p>
-				<p>刀纹读取修正</p>
-				<p>审神者信息bug修正</p>
-				<p>修行时间显示及推送</p>
-				<p>物品列表与小判及时刷新</p>
-				<p>活动地图一劳永逸式添加</p>
-				<p>负数疲劳修正</p>
-				<p>增加调试模式</p>
-			</li>
-			<li>
-				<b>Version:v1.1.3</b>
-				<p>疲劳49以下的bug修复</p>
-				<p>演练记录单独显示</p>
-				<p>演练后疲劳有误bug修复</p>
-				<p>敌刀及演练对手剧透</p>
-				<p>新活动地图及敌刀图片添加</p>
-				<p>UI调整</p>
-				<p>时间bug修正及格式调整</p>
-			</li>
-			<li>
-				<b>Version:v1.1.2</b>
-				<p>解决出战后马的状态显示bug</p>
-				<p>战斗中刀装损失后颜色改变</p>
-				<p>改变插件宽度时资源栏显示会改变（尽量缩在一行）</p>
-				<p>各种提醒以及剧透的开关</p>
-				<p>锻刀记录和战斗记录可清除（清除后需要重新加载刷新）</p>
-			</li>
-			<li>
-				<b>Version:v1.1.1</b>
-				<p>增加了联队战和演练的战况更新</p>
-				<p>增加了加速以及小判显示，物品列表显示，刀剑列表御守佩戴情况显示</p>
-				<p>添加了刀帐立绘收集不全列表（需要先点开刀账）</p>
-				<p>不用每次都重进结成了，战斗中关闭插件（理论上）也可以载入数据</p>
-				<p>（建议还是尽量进一次结成防止意外bug）</p>
-				<p>修正了战斗记录每次都重新记的bug</p>
-				<p>修改了战斗记录的形式，显示战斗点id和层数，取消获得刀剑刀帐号表示</p>
-				<p>远征不间断提醒bug（疑似）修复成功</p>
-			</li>
-			<li>
-				<b>之后版本希望添加的功能：</b>
-				<p>刀纹自动更新</p>
-			</li>
+				<li>
+					<b>版本：v1.1.9</b>
+					<p>修复花札中毒箭显示破坏的bug</p>
+					<p>修复联队战的各种bug</p>
+					<p>【鉴于现役背锅的两人越来越咸鱼，以后的更新可能会越来越少了，不出什么大的幺蛾子请各位尽量用旧版本苟住</p>
+				</li>
+				<li>
+					<b>版本：v1.1.8</b>
+					<p>增加了兔子活动boss点的位置剧透（不过一年就一回呀）</p>
+					<p>锻刀加速情况修复</p>
+					<p>各种记录的bug修复：不开提醒也可以有记录了</p>
+					<p>部队下拉菜单可以显示队伍情况（远征/出阵）</p>
+					<p>习合时更新刀帐列表</p>
+					<p>聚乐第出阵状态</p>
+				</li>
+				<li>
+					<b>版本：v1.1.7</b>
+					<p>修正了“垃圾ts增添数据”而导致婶婶忙崩溃的bug</p>
+					<p>增加了稀有刀掉落提醒，可以与正常战报同时使用</p>
+				</li>
+				<li>
+					<b>Version:v1.1.6</b>
+					<p>增加内番记录</p>
+					<p>增加战报持续时长设定</p>
+					<p>修正疲劳49以下刀剑远征时疲劳自动回复的bug</p>
+					<p>增加演练对方阵容剧透疲劳度</p>
+					<p>增加全刀帐直接导出</p>
+					<p>【垃圾ts使我兴致全无江户城点种类统计无限期咕咕咕】</p>
+				</li>
+				<li>
+					<b>Version:v1.1.5</b>
+					<p>预备移动刀帐位置&添加远征计算器</p>
+					<p>修正平均等级</p>
+					<p>增加刀名魔改</p>
+					<p>花札乐器掉落&修正焙烙玉及毒矢显示问题</p>
+				</li>
+				<li>
+					<b>Version:v1.1.4.1</b>
+					<p>修正战扩地图</p>
+					<p>修正修行数据读取问题</p>
+					<p>修正刀装做成失败问题</p>
+					<p>修正手入刀纹极普未分问题</p>
+				</li>
+				<li>
+					<b>Version:v1.1.4</b>
+					<p>记录导出</p>
+					<p>远征提醒和内番提醒bug修正</p>
+					<p>战报增加刀装破坏提示</p>
+					<p>增加索敌阵型提示</p>
+					<p>刀纹读取修正</p>
+					<p>审神者信息bug修正</p>
+					<p>修行时间显示及推送</p>
+					<p>物品列表与小判及时刷新</p>
+					<p>活动地图一劳永逸式添加</p>
+					<p>负数疲劳修正</p>
+					<p>增加调试模式</p>
+				</li>
+				<li>
+					<b>Version:v1.1.3</b>
+					<p>疲劳49以下的bug修复</p>
+					<p>演练记录单独显示</p>
+					<p>演练后疲劳有误bug修复</p>
+					<p>敌刀及演练对手剧透</p>
+					<p>新活动地图及敌刀图片添加</p>
+					<p>UI调整</p>
+					<p>时间bug修正及格式调整</p>
+				</li>
+				<li>
+					<b>Version:v1.1.2</b>
+					<p>解决出战后马的状态显示bug</p>
+					<p>战斗中刀装损失后颜色改变</p>
+					<p>改变插件宽度时资源栏显示会改变（尽量缩在一行）</p>
+					<p>各种提醒以及剧透的开关</p>
+					<p>锻刀记录和战斗记录可清除（清除后需要重新加载刷新）</p>
+				</li>
+				<li>
+					<b>Version:v1.1.1</b>
+					<p>增加了联队战和演练的战况更新</p>
+					<p>增加了加速以及小判显示，物品列表显示，刀剑列表御守佩戴情况显示</p>
+					<p>添加了刀帐立绘收集不全列表（需要先点开刀账）</p>
+					<p>不用每次都重进结成了，战斗中关闭插件（理论上）也可以载入数据</p>
+					<p>（建议还是尽量进一次结成防止意外bug）</p>
+					<p>修正了战斗记录每次都重新记的bug</p>
+					<p>修改了战斗记录的形式，显示战斗点id和层数，取消获得刀剑刀帐号表示</p>
+					<p>远征不间断提醒bug（疑似）修复成功</p>
+				</li>
+				<li>
+					<b>之后版本希望添加的功能：</b>
+					<p>刀纹自动更新</p>
+				</li>
 			</div>
 			</ul>
 		</div>

@@ -139,53 +139,13 @@ define((require, exports, module) => {
 		//console.log('num',_.get(state, ['practice_enemy'], {}))
         return _.get(state, ['practice_enemy','num',this.numId], {})
       },
-      pvp_sword (state){
-        return _.get(state, ['practice_enemy', 'num', this.numId], {})
-      },
-      pvp_party (state){
-		//console.log('huh', !(_.isEmpty(_.get(state, ['practice_enemy', 'num'], {}))) ? Object.keys(_.get(state, ['practice_enemy', 'num'], {})).length : "0")
-        return _.get(state, ['practice_enemy', 'num',this.numId], {})
-      }
-	}
-  })
-  
-  Vue.component('pvp_offer_1', {
-	template: '#pvp1',
-	props: [],
-	computed: {
-	  
-	}
-  })
-  
-  Vue.component('pvp_offer_2', {
-	template: '#pvp2',
-	props: [],
-	computed: {
-	  
-	}
-  })
-  
-  Vue.component('pvp_offer_3', {
-	template: '#pvp3',
-	props: [],
-	computed: {
-	  
-	}
-  })
-  
-  Vue.component('pvp_offer_4', {
-	template: '#pvp4',
-	props: [],
-	computed: {
-	  
-	}
-  })
-  
-  Vue.component('pvp_offer_5', {
-	template: '#pvp5',
-	props: [],
-	computed: {
-	  
+    pvp_sword (state){
+      return _.get(state, ['practice_enemy', 'num', this.numId], {})
+    },
+    pvp_party (state){
+    //console.log('huh', !(_.isEmpty(_.get(state, ['practice_enemy', 'num'], {}))) ? Object.keys(_.get(state, ['practice_enemy', 'num'], {})).length : "0")
+      return _.get(state, ['practice_enemy', 'num',this.numId], {})
+    }
 	}
   })
 
@@ -233,7 +193,7 @@ define((require, exports, module) => {
           info: false,
           value: false,
           equip: false,
-		  limits: false
+		      limits: false
         }
       }
     },
@@ -280,6 +240,31 @@ define((require, exports, module) => {
         }
       }
     }
+  })
+
+  const MissEvent = Vue.component('missevent', {
+	template: '#missevent',
+	data () {
+      return {
+        option: {
+          daily: true,
+          monthly: false,
+          obj: false,
+		      event: false
+        }
+      }
+    },
+	computed: {
+	  ...Vuex.mapState(['mission', 'event']),
+	  eventID (state) {
+		console.log(_.get(state, ['event', 'event_id'], 0))
+        return _.get(state, ['event', 'event_id'], 0)
+	  },
+	  eventType (state) {
+		console.log(_.get(state, ['event', 'event_info'], {}))
+		return _.get(state, ['event', 'event_info', 'type'], 0)
+	  }
+	}
   })
   
   const Extra = Vue.component('extra', {
@@ -356,7 +341,7 @@ define((require, exports, module) => {
 
   const Setting = Vue.component('setting', {
     template: '#setting',
-	data () {
+    data () {
       return {
         expand: false
       }
@@ -381,6 +366,7 @@ define((require, exports, module) => {
       { path: '/party', components: { 'party-list-wrapper': partyListWrapper } },
       { path: '/enemy', component: Enemy },
       { path: '/other', component: Other },
+	    { path: '/missevent', component: MissEvent },
       { path: '/extra', component: Extra },
       { path: '/setting', component: Setting }
     ]
@@ -496,6 +482,39 @@ define((require, exports, module) => {
           })
         }
       })
+	  
+	  localforage.getItem('MissionDaily').then((data) => {
+		if (data) {
+		  _.each(data, v => store.commit('mission/updateDaily', {
+			dailyId: v.mission_id,
+			updateData: v
+		  }))
+		}
+	  })
+	  localforage.getItem('MissionMonthly').then((data) => {
+		if (data) {
+		  _.each(data, v => store.commit('mission/updateMonthly', {
+			monthlyId: v.mission_id,
+			updateData: v
+		  }))
+		}
+	  })
+	  localforage.getItem('MissionObjective').then((data) => {
+		if (data) {
+		  _.each(data, v => store.commit('mission/updateObjective', {
+			objId: v.mission_id,
+			updateData: v
+		  }))
+		}
+	  })
+	  localforage.getItem('MissionEvent').then((data) => {
+		if (data) {
+		  _.each(data, v => store.commit('mission/updateEvent', {
+			eventyId: v.mission_id,
+			updateData: v
+		  }))
+		}
+	  })
     },
     methods: {
       scroll (name) {

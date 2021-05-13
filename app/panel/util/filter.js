@@ -24,10 +24,10 @@ define((require, exports, module) => {
   })
   
   exports.equipNameFormat = Vue.filter('equip-name-format', (name) => {
-	if (!name) {
-		//For PVP list
-		return
-	}
+    if (!name) {
+      //For PVP list
+      return
+    }
     return name.replace('･特上', '').replace('･上', '').replace('･並', '').replace(/\d+/, '')
   })
 
@@ -37,7 +37,7 @@ define((require, exports, module) => {
   
   //Replaces Sword type kanji with type icon
   exports.typePattern = Vue.filter('type-pattern', function (typeName, rarity) {
-	return typeName ? '../../static/sword/ico/' + typeName + '-' + rarity + '.png' : '../../static/sword/0.png'
+	  return typeName ? '../../static/sword/ico/' + typeName + '-' + rarity + '.png' : '../../static/sword/0.png'
   })
 
   exports.swordPattern = Vue.filter('sword-pattern', function (swordId) {
@@ -46,14 +46,13 @@ define((require, exports, module) => {
   
   //Replaces Evolution Upgrade unicode symbol with kiwame/toku symbols
   exports.evolutionPattern = Vue.filter('evolution-pattern', function (symbolID) {
-	let evoName = ['normal', 'toku', 'kiwame']
-	return symbolID ? '../../static/sword/ico/' + evoName[symbolID] + '-' + symbolID + '.png' : '../../static/sword/ico/' + evoName[symbolID] + '-' + symbolID + '.png'
+	  let evoName = ['normal', 'toku', 'kiwame']
+	  return symbolID ? '../../static/sword/ico/' + evoName[symbolID] + '-' + symbolID + '.png' : '../../static/sword/ico/' + evoName[symbolID] + '-' + symbolID + '.png'
   })
   
   //Replaces Omamori with icon
   exports.amuletPattern = Vue.filter('amulet-pattern', function (itemName) {
-	console.log(itemName)
-	return itemName != "-" ? '../../static/sword/ico/' + itemName.replace('・','-') + '.png' : "-"
+	  return itemName != "-" ? '../../static/sword/ico/' + itemName.replace('・','-') + '.png' : "-"
   })
 
   exports.EnemySwordPattern = Vue.filter('enemy-sword-pattern', function (swordId) {
@@ -63,6 +62,7 @@ define((require, exports, module) => {
   })
 
   exports.MapPattern = Vue.filter('map-pattern', function (mapId) {
+	  console.log(mapId);
     let [episodeId , fieldId , layerNum] = mapId.split('_')
     if(episodeId > 0)
       return '../../static/map/' + episodeId + '_' + fieldId + '_' + layerNum + '.jpg'
@@ -70,40 +70,39 @@ define((require, exports, module) => {
       let type = _.get(TRHMasterData.getMasterData('Event'), [episodeId, 'type'], 0)
       let map = _.get(TRHMasterData.getMasterData('EventLayer'), [episodeId, fieldId, layerNum, 'map'], 0)
 	  
-	  console.log(TRHMasterData.getMasterData('Event'))
       if(type == 4){
-		//Regiment Maps
+		    //Regiment Maps
         map = fieldId
       };
-	  if (type == 8 || type == 9) {
-		//Special Investigation Maps
-		if(layerNum == 2){
-			return '../../static/map/event' +  '_' + type + '.jpg'
-		}
-		//console.log(TRHMasterData.getMasterData('Event')[episodeId]['type'])
-		
-		//Tentative map version control
-		
-		if (map >= 2) {
-			const evsq = TRHMasterData.getMasterData('EventSquare')
-			let evsql = evsq[episodeId][map][layerNum]
-			let vers = 1
-			for (i=48; i < Object.entries(evsq).length+48; i++) {
-				if (type == TRHMasterData.getMasterData('Event')[-i]['type']) {
-					if (evsq[-i] !== evsq[episodeId]) {
-						//Checks to see if maps are diff, if yes then 'updates' version number
-						vers++
-					}
-					else {
-						continue
-					}
-				}
-			}
-			console.log(vers)
-			return '../../static/map/event' +  '_' + type + '_' + map + '_' + vers + '.jpg'
-		}
-	  }
-	  return '../../static/map/event' +  '_' + type + '_' + map + '.jpg'
+      if (type == 8 || type == 9) {
+        //Special Investigation Maps
+        if(layerNum == 2){
+          return '../../static/map/event' +  '_' + type + '.jpg'
+        }
+        //console.log(TRHMasterData.getMasterData('Event')[episodeId]['type'])
+        
+        //Tentative map version control
+        
+        if (map >= 2) {
+          const evsq = TRHMasterData.getMasterData('EventSquare')
+          let evsql = evsq[episodeId][map][layerNum]
+          let vers = 1
+          for (i=48; i < Object.entries(evsq).length+48; i++) {
+            if (type == TRHMasterData.getMasterData('Event')[-i]['type']) {
+              if (evsq[-i] !== evsq[episodeId]) {
+                //Checks to see if maps are diff, if yes then 'updates' version number
+                vers++
+              }
+              else {
+                continue
+              }
+            }
+          }
+          console.log(vers)
+          return '../../static/map/event' +  '_' + type + '_' + map + '_' + vers + '.jpg'
+        }
+      }
+      return '../../static/map/event' +  '_' + type + '_' + map + '.jpg'
     }
   })
 
@@ -124,7 +123,7 @@ define((require, exports, module) => {
     return [
     '-',
     'Omamori',
-    'Omamori・極'
+    'Omamori・K'
     ][itemId] || ''
   })
 
@@ -184,8 +183,8 @@ define((require, exports, module) => {
   })
 
   exports.swordName = Vue.filter('sword-name', (swordId) => {
-	//console.log(swordId,_.get(TRHMasterData.getMasterData('Sword'), [swordId, 'name'], '-'))
-	return swordId ? _.get(TRHMasterData.getMasterData('Sword'), [swordId, 'name'], '-') : '空'
+    let name = swordId ? _.get(TRHMasterData.getMasterData('Sword'), [swordId, 'name'], '-') : '空'
+    return name == '-' ? '空' : name
   })
 
   exports.swordHp = Vue.filter('sword-hp', (swordId) => {
@@ -209,89 +208,170 @@ define((require, exports, module) => {
   })
 
   exports.allEquipSerialName = Vue.filter('all-equip-serial-name', (serialIds) => {
-	serialArr = _.map(serialIds, function (serialId) {
-		let names = _.get(store.state, ['equip', 'serial', serialId, 'name'], '-')
-		let typeId = (_.find(TRHMasterData.getMasterData('Equip'), ['name', names]) ? _.find((TRHMasterData.getMasterData('Equip')), ['name', names])['type'] : 0 )
-		let equipId = (_.find(TRHMasterData.getMasterData('Equip'), ['name', names]) ? _.find((TRHMasterData.getMasterData('Equip')), ['name', names])['equipId'] : 0 )
-		if (names.indexOf('･') > -1) {
-			return TRH.EquipENGName[String(equipId)]
-		}
-		if (typeId == 0) {
-			return '-'
-		}
-	})
-    return serialArr.join(' / ')
+    serialArr = _.map(serialIds, function (serialId) {
+      let names = _.get(store.state, ['equip', 'serial', serialId, 'name'], '-')
+      let typeId = (_.find(TRHMasterData.getMasterData('Equip'), ['name', names]) ? _.find((TRHMasterData.getMasterData('Equip')), ['name', names])['type'] : 0 )
+      let equipId = (_.find(TRHMasterData.getMasterData('Equip'), ['name', names]) ? _.find((TRHMasterData.getMasterData('Equip')), ['name', names])['equipId'] : 0 )
+      if (names.indexOf('･') > -1) {
+        return TRH.EquipENGName[String(equipId)]
+      }
+      if (typeId == 0) {
+        return '-'
+      }
+    })
+      return serialArr.join(' / ')
   })
 
   exports.itemNameFormat = Vue.filter('item-name-format', (ConsumableId) => {
     let name = _.get(TRHMasterData.getMasterData('Consumable'), [ConsumableId, 'name'], '-')
     //return name.replace('御札・', '')
-	return name
+	  return name
   })
   
   // Translation filters
   exports.convertTeamName = Vue.filter('convert-team-name', (team) => {
-	return _.get(store.state, ['party', 'parties', team, 'party_name'], '-').replace('第','Team ').replace('部隊','')
+	  return _.get(store.state, ['party', 'parties', team, 'party_name'], '-').replace('第','Team ').replace('部隊','')
   })
   
-  exports.convertSwordNo = Vue.filter('convert-sword-no', (swordID) => { 
-	let name = TRH.SwordENGName[swordID][swordID] + (_.get(TRHMasterData.getMasterData('Sword'), [swordID, 'symbol'], 0) === 2 ? '·🌸' : '')
-	return (swordID ? name : '空')
+  exports.convertSwordNo = Vue.filter('convert-sword-no', (swordID) => {
+    if (swordID) {
+      let name = ""
+      if (TRH.SwordENGName[swordID]) {
+        name = TRH.SwordENGName[swordID][swordID] + (_.get(TRHMasterData.getMasterData('Sword'), [swordID, 'symbol'], 0) === 2 ? '·🥝' : '')
+      }
+      else {
+        name = _.get(TRHMasterData.getMasterData('Sword'), [swordID, 'name'], '-')
+      }
+      
+      return (swordID ? name : '空')
+    }
+    return swordID ? '-' : '* HIDDEN '
   })
   
   exports.convertSwordSerial = Vue.filter('convert-sword-serial', (swordSerialID) => {
-	let swordID = String(_.get(store.state, ['swords', 'serial', swordSerialID, 'sword_id'], 0))
-	let name = (swordID>0 ? TRH.SwordENGName[swordID][swordID] + (_.get(TRHMasterData.getMasterData('Sword'), [swordID, 'symbol'], 0) === 2 ? '·🌸' : '') : "")
-	return (swordID ? name : '空')
+    let swordID = String(_.get(store.state, ['swords', 'serial', swordSerialID, 'sword_id'], 0))
+    let name = ""
+    if (TRH.SwordENGName[swordID]) {
+      name = (swordID>0 ? TRH.SwordENGName[swordID][swordID] + (_.get(TRHMasterData.getMasterData('Sword'), [swordID, 'symbol'], 0) === 2 ? '·🥝' : '') : "")
+    }
+    else {
+      name = (swordID>0 ? _.get(TRHMasterData.getMasterData('Sword'), [swordID, 'name'], '-') : '空')
+    }
+    return (swordID ? name : '空')
   })
   
   exports.convertSwordName = Vue.filter('convert-sword-name', (SName) => {
-	if (SName=="") {
-		//No Horse Equipped to sword
-		return "-"
-	}
-	if (SName=="None") {
-		return SName
-	}
-	let swordID = (_.find(TRHMasterData.getMasterData('Sword'), ['name', SName.replace('·🌸','')]) ? _.find((TRHMasterData.getMasterData('Sword')), ['name', SName.replace('·🌸','')])['swordId'] : 0 )
-	//The _.find() method will only return the first occuring name (ie non-kiwame/pre-toku).
-	if (SName.indexOf('·🌸')>-1) {
-		swordID += 1
-	}
-	let name = (swordID ? TRH.SwordENGName[String(swordID)][String(swordID)] + (_.get(TRHMasterData.getMasterData('Sword'), [swordID, 'symbol'], 0) === 2 ? '·🌸' : '') : '')
-	return (swordID ? name : '空')
+    if (SName=="None" || SName=='空') {
+      return SName
+    }
+    let swordID = (_.find(TRHMasterData.getMasterData('Sword'), ['name', SName.replace('·🥝','')]) ? _.find((TRHMasterData.getMasterData('Sword')), ['name', SName.replace('·🥝','')])['swordId'] : 0 )
+    //The _.find() method will only return the first occuring name (ie non-kiwame/pre-toku).
+    if (SName.indexOf('·🥝')>-1) {
+      swordID += 1
+    }
+    let name = ""
+    if (TRH.SwordENGName[String(swordID)]) {
+      name = (swordID ? TRH.SwordENGName[String(swordID)][String(swordID)] + (_.get(TRHMasterData.getMasterData('Sword'), [swordID, 'symbol'], 0) === 2 ? '·🥝' : '') : '')
+    }
+    else {
+      name = SName
+    }
+    return (swordID ? name : '-')
   })
   
-  exports.convertEquipName = Vue.filter('convert-equip-name', (EName) => {
-	if (!EName) {
-		//For PVP
-		return
-	}
-	if (_.find(TRHMasterData.getMasterData('Equip'), ['description', EName])) {
-		// Troops Equipped
-		let typeID = (_.find(TRHMasterData.getMasterData('Equip'), ['description', EName]) ? _.find((TRHMasterData.getMasterData('Equip')), ['description', EName])['type'] : 0 )
-		return (typeID ? TRH.EquipENGType[String(typeID)] : '空')
-	}
-	else {
-		let typeId = (_.find(TRHMasterData.getMasterData('Equip'), ['name', EName]) ? _.find((TRHMasterData.getMasterData('Equip')), ['name', EName])['type'] : 0 )
-		let equipID = (_.find(TRHMasterData.getMasterData('Equip'), ['name', EName]) ? _.find((TRHMasterData.getMasterData('Equip')), ['name', EName])['equipId'] : 0 )
-		// Horses Inventory
-		if (typeId == 100) {
-			return TRH.EquipENGName[String(equipID)]
-		}
-		//Troops Inventory
-		if (EName.indexOf('･') > -1) {
-			return TRH.EquipENGName[String(equipID)]
-		}
-		// NO equipped horses in Sword List
-		if (!typeId) {
-			return '-'
-		}
-	}
+  exports.horseOwnerName = Vue.filter('horse-owner-name', (Owner) => {
+    //For When the same horseID is equipped to multiple swords
+    if (Owner.indexOf(',') > -1) {
+      let owner_list = Owner.split(',')
+      
+      _.each(owner_list, (v,k) => {
+        let ownerID = (_.find(TRHMasterData.getMasterData('Sword'), ['name', owner_list[k].replace('·🥝','')]) ? _.find((TRHMasterData.getMasterData('Sword')), ['name', owner_list[k].replace('·🥝','')])['swordId'] : 0 )
+        if (owner_list[k].indexOf('·🥝')>-1) {
+          ownerID += 1
+        }
+        if (TRH.SwordENGName[String(ownerID)]) {
+          owner_list[k] = (ownerID ? TRH.SwordENGName[String(ownerID)][String(ownerID)] + (_.get(TRHMasterData.getMasterData('Sword'), [ownerID, 'symbol'], 0) === 2 ? '·🥝' : '') : '')
+        }
+      })
+      return owner_list.join(', ')
+    }
+    let swordID = (_.find(TRHMasterData.getMasterData('Sword'), ['name', Owner.replace('·🥝','')]) ? _.find((TRHMasterData.getMasterData('Sword')), ['name', Owner.replace('·🥝','')])['swordId'] : 0 )
+    //The _.find() method will only return the first occuring name (ie non-kiwame/pre-toku).
+    if (Owner.indexOf('·🥝')>-1) {
+      swordID += 1
+    }
+    let name = ""
+    if (TRH.SwordENGName[String(swordID)]) {
+      name = (swordID ? TRH.SwordENGName[String(swordID)][String(swordID)] + (_.get(TRHMasterData.getMasterData('Sword'), [swordID, 'symbol'], 0) === 2 ? '·🥝' : '') : '')
+    }
+    else {
+      name = Owner
+    }
+    //let name = (swordID ? TRH.SwordENGName[String(swordID)][String(swordID)] + (_.get(TRHMasterData.getMasterData('Sword'), [swordID, 'symbol'], 0) === 2 ? '·🥝' : '') : '')
+    return (swordID ? name : '-')
   })
   
-  exports.convertItemName = Vue.filter('convert-item-name', (item) => {
-	let itemID = (_.find(TRHMasterData.getMasterData('Consumable'), ['name', item]) ? _.find((TRHMasterData.getMasterData('Consumable')), ['name', item])['consumableId'] : 0 )
-	return TRH.ItemENGName[String(itemID)]
+  exports.convertEquipName = Vue.filter('convert-equip-name', (EqName) => {
+    if (!EqName) {
+      //For PVP
+      return
+    }
+    if (_.find(TRHMasterData.getMasterData('Equip'), ['description', EqName])) {
+      // Troops Equipped
+      let typeID = (_.find(TRHMasterData.getMasterData('Equip'), ['description', EqName]) ? _.find((TRHMasterData.getMasterData('Equip')), ['description', EqName])['type'] : 0 )
+      return (typeID ? (TRH.EquipENGType[String(typeID)] ? TRH.EquipENGType[String(typeID)] : EqName) : '空')
+    }
+    else {
+      let typeId = (_.find(TRHMasterData.getMasterData('Equip'), ['name', EqName]) ? _.find((TRHMasterData.getMasterData('Equip')), ['name', EqName])['type'] : 0 )
+      let equipID = (_.find(TRHMasterData.getMasterData('Equip'), ['name', EqName]) ? _.find((TRHMasterData.getMasterData('Equip')), ['name', EqName])['equipId'] : 0 )
+      // Horses Inventory
+      if (typeId == 100) {
+        return TRH.EquipENGName[String(equipID)] ? TRH.EquipENGName[String(equipID)] : EqName
+      }
+      //Troops Inventory
+      if (EqName.indexOf('･') > -1) {
+        return TRH.EquipENGName[String(equipID)] ? TRH.EquipENGName[String(equipID)] : EqName
+      }
+      // NO equipped horses in Sword List
+      if (!typeId) {
+        return '-'
+      }
+    }
+  })
+  
+  exports.convertItemName = Vue.filter('convert-item-name', (itemID) => {
+    return TRH.ItemENGName[String(itemID)] ? TRH.ItemENGName[String(itemID)] : _.get(TRHMasterData.getMasterData('Consumable'), [itemID, 'name'], '-')
+  })
+  
+  exports.convertEnemyName = Vue.filter('convert-enemy-name', (EName) => {
+    //Suffixes
+    let rank = EName.replace('_丙',' C').replace('_乙',' B').replace('_甲',' A').replace('_放免','').replace('(甲)','')
+    
+    if (rank.indexOf('_下士') > -1 || rank.indexOf('_上士') >  -1) {
+      let list = rank.split('_')
+      rank = list[1].concat(' ', list[0])
+	  }
+    //Event Enemies
+    let spec = rank.replace('打刀_志士','Shishi Uchigatana').replace('脇差_郷士','Goushi Wakizashi').replace('打刀_留守居組','Rusuigumi Uchigatana').replace('下士','Kashi').replace('上士','Joushi')
+    //Special Sword Types Kunai (tantou), Chuu-wakizashi, Honzashi (uchigatana), Jin-dachi, Nagae yari, Tsukushi Naginata
+    let prefix = rank.replace('苦無','Kunai').replace('中','Chuu-').replace('本差','Honzashi').replace('野太刀','Nodachi').replace('陣太刀','Jindachi').replace('長柄','Nagae ').replace('筑紫','Tsukushi ')
+    let name = prefix.replace('短刀','Tantou').replace('脇差','Wakizashi').replace('打刀','Uchigatana').replace('大太刀','Ootachi').replace('太刀','Tachi').replace('槍','Yari').replace('薙刀','Naginata')
+    return name
+  })
+  
+  exports.missionStatus = Vue.filter('mission-status', (statusNo) => {
+    let statusList = ['','Open', 'Pending', 'Closed']
+    return statusList[statusNo]
+  })
+  
+  exports.convertEventName = Vue.filter('convert-event-name', (EvName) => {
+    let type = (_.find(TRHMasterData.getMasterData('Event'), ['name', EvName]) ? _.find(TRHMasterData.getMasterData('Event'), ['name', EvName])['type'] : 0)
+    if (type==4) {
+      if (EvName.length > 3) {
+        return EvName.replace('連隊戦','Regiment Battle').replace('','')
+      }
+    }
+    let eventList = ['','Underground Treasure Chest','War Training Expansion','Village of Treasures - Instrument Gathering Stage','Regiment Battle','Edo Castle Infiltration Investigation','Delicious Dango Chasing Rabbit Village','Hidden Demon Extermination in the Capital','Special Investigation: Jurakutei','Special Investigation: Bunkyuu','Special Investigation: Tenpou Edo','Special Investigation: Keichou Kumamoto','Operation: Recapture the Night Flower','Village of Treasures - Flower Gathering Stage','Special Investigation: Keiou Koufu']
+    return eventList[type] ? eventList[type] : EvName
   })
 })

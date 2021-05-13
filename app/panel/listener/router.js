@@ -998,7 +998,7 @@ define((require, exports, module) => {
     }
 	
 	static ['mission/index'] (content) {
-	  /*let missionContent = {
+	  let missionContent = {
 		event: [],
 		ignore_mission_ids: []
 	  }
@@ -1014,21 +1014,21 @@ define((require, exports, module) => {
 		})
 	  }
 	  _.each(content.mission, (v, k) => {
-		if (v.mission_id <= 585) {
-			store.commit('mission/updateObjective', {
-				objId: v.mission_id,
+		if (v.mission_id >= 673 && v.mission_id <= 694) {
+			store.commit('mission/updateDaily', {
+				dailyId: v.mission_id,
 				updateData: v
 			})
 		}
-		else if (v.mission_id >= 695 && v.mission_id <= 714) {
+    else if (v.mission_id >= 695 && v.mission_id <= 714) {
 			store.commit('mission/updateMonthly', {
 				monthlyId: v.mission_id,
 				updateData: v
 			})
 		}
-		else if (v.mission_id >= 673 && v.mission_id <= 694) {
-			store.commit('mission/updateDaily', {
-				dailyId: v.mission_id,
+    else if (v.mission_id <= 1030) {
+			store.commit('mission/updateObjective', {
+				objId: v.mission_id,
 				updateData: v
 			})
 		}
@@ -1038,7 +1038,7 @@ define((require, exports, module) => {
 				updateData: v
 			})
 		}
-	  })*/
+	  })
 	}
 
     static ['mission/reward'] (content) {

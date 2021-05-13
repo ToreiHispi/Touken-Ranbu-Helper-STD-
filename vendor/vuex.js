@@ -1,7 +1,7 @@
 /**
  * vuex v2.4.1
  * (c) 2017 Evan You
- * @license MIT
+ * license MIT
  */
 (function (global, factory) {
 	typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :

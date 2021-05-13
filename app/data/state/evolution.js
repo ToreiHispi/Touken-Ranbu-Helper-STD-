@@ -8,7 +8,7 @@ define((require, exports, module) => {
     mutations: {
       updateEvolution (state, payload) {
         let {updateData} = payload
-        console.log(payload)
+        console.log(updateData)
         if (updateData.back[0] && updateData.back[0].serial_id) {
           mergeModel(state, updateData)
         }
