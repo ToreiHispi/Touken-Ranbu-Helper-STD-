@@ -280,6 +280,7 @@
 		</div>
 		</div>
 		<div class="title" id="practice">· PVP Practice ·</div>
+		<div style="float:left;">*Fatigue levels are just for show in this tool and do not actually apply to PVP battles. All enemy swords will be performing at Normal Fatigue levels.</div>
 		<div v-if="practice_enemy_party != null" v-for="enemy_sword in practice_enemy_party.slot" class="party-list">
 		<div v-if="enemy_sword.serial_id" class="touken-info">
 			<img :src="practice_enemy_sword[enemy_sword.serial_id].sword_id | sword-pattern" alt="空" class="pattern">
@@ -387,9 +388,11 @@
 		<repair-item v-for='r in repair.slot' :slot-no="r.slot_no" :key="r.slot_no"></repair-item>
 		</div>
 		<div class="title" id="all-swords">· Sword Library ·</div>
-		<div class="title"><small>Gallery</small></div>
+		<div class="title"><small>Gallery</small>
+			<br/><small style="font-size: 8pt; font-weight: normal;">*The "○" denotes that you have unlocked this particular image.</small></div>
 		<div class="data-table" v-if="album.serial">
 		<div class="container">
+			
 			<table	v-if="album.serial">
 				<thead>
 				<tr>

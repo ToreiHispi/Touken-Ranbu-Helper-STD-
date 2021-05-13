@@ -135,7 +135,7 @@ define((require, exports, module) => {
   })
 
   exports.getNotFlg = Vue.filter('not-flg', (flg) =>{
-    return ['○', ''][flg]
+    return ['', '○'][flg]
   })
 
   exports.hhmmss = Vue.filter('hhmmss', (time) => {
