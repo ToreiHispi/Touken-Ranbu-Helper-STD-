@@ -343,7 +343,10 @@ define((require, exports, module) => {
     template: '#setting',
     data () {
       return {
-        expand: false
+        expand: {
+          en: true,
+          cn: false
+        }
       }
     },
     computed: {

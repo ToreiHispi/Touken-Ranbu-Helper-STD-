@@ -66,6 +66,9 @@ define((require, exports, module) => {
 	  });
 	  Object.entries(TRHMasterData.masterData).forEach(([k, v]) => {
 		console.log(k)
+    if (k=='PowerfulTextMaster') {
+      console.log(v);
+    }
 		v.split('\n')
 		.map((line) => {
 			let arr = line.split(',')

@@ -8,7 +8,6 @@ define((require, exports, module) => {
           let { updateData } = mutation.payload
           let getSwordId = updateData.sword_id
           let time = moment(parseValues(mutation.payload.updateData.finished_at))
-          //let swordNameJPN = _.get(TRHMasterData.getMasterData('Sword'), [getSwordId, 'name'], 'None')
           let swordName = _.get(TRHMasterData.getMasterData('Sword'), [getSwordId, 'name'], 'None') == 'None' ? 'None' : (TRH.SwordENGName[String(getSwordId)] ? TRH.SwordENGName[String(getSwordId)]['full'] : _.get(TRHMasterData.getMasterData('Sword'), [getSwordId, 'name'], 'None'))
           let timeout = _.get(state, ['config', 'timeout'], 3)*1000
           if (timeout<3000){
@@ -22,7 +21,7 @@ define((require, exports, module) => {
           if (state.config.forge_notice == true) {
           if (getSwordId) {
             store.dispatch('notice/addNotice', {
-              title: `Smithing Result: ${swordName}`,
+              title: `Forge Result: ${swordName}`,
               message: `End Time: ${time.format('HH:mm:ss')}`,
               context: time.isBefore() ? "It's done!" : 'Please wait patiently or use a Help Token.',
 			        timeout: timeout,

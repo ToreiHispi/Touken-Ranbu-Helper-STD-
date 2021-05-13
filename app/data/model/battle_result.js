@@ -37,9 +37,8 @@ define((require, exports, module) => {
               level: null,
               is_bonus_exp: null,
               get_bonus_exp: null,
-			  battleFatigue: null,
-			  fatigue: null
-			  
+              battleFatigue: null,
+              fatigue: null
             },
             2: {
               serial_id: null,
