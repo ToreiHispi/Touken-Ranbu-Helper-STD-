@@ -175,6 +175,17 @@ define((require, exports, module) => {
   })
 
   exports.formationName = Vue.filter('formation-name', (formationId) => {
+    if (/^[A-Za-z]+/.test(_.get(TRHMasterData.getMasterData('Sword'), [3, 'name'], '-'))) {
+      return {
+        0: 'Unknown',
+        1: 'Wedge',
+        2: 'Inv. Wedge',
+        3: 'Square',
+        4: 'Line',
+        5: 'Echelon',
+        6: 'Inv. Echelon'
+      }[formationId] || ''
+    }
     return {
       0: 'Unknown',
       1: 'Fish Scale',
@@ -223,7 +234,6 @@ define((require, exports, module) => {
   exports.allEquipSerialName = Vue.filter('all-equip-serial-name', (serialIds) => {
     serialArr = _.map(serialIds, function (serialId) {
       let names = _.get(store.state, ['equip', 'serial', serialId, 'name'], '-')
-      console.log(names)
       let typeId = (_.find(TRHMasterData.getMasterData('Equip'), ['name', names]) ? _.find((TRHMasterData.getMasterData('Equip')), ['name', names])['type'] : 0 )
       let equipId = (_.find(TRHMasterData.getMasterData('Equip'), ['name', names]) ? _.find((TRHMasterData.getMasterData('Equip')), ['name', names])['equipId'] : 0 )
       if (names.indexOf('･') > -1) {
@@ -342,7 +352,6 @@ define((require, exports, module) => {
   })
   
   exports.convertEquipName = Vue.filter('convert-equip-name', (EqName) => {
-    console.log(EqName)
     if (/^[A-Za-z]+/.test(EqName.replace('H.','Heavy').replace('L.','Light'))) {
       return EqName.replace('H.','Heavy').replace('L.','Light')
     } else if (/^\d\d[A-Za-z ]+/.test(EqName)) {
@@ -354,7 +363,6 @@ define((require, exports, module) => {
       return
     }
     if (_.find(TRHMasterData.getMasterData('Equip'), ['description', EqName])) {
-      //console.log(_.find(TRHMasterData.getMasterData('Equip'), ['description', EqName]));
       // Troops Equipped
       let typeID = (_.find(TRHMasterData.getMasterData('Equip'), ['description', EqName]) ? _.find((TRHMasterData.getMasterData('Equip')), ['description', EqName])['type'] : 0 )
       return (typeID ? (TRH.EquipENGType[String(typeID)] ? TRH.EquipENGType[String(typeID)] : EqName) : '空')
