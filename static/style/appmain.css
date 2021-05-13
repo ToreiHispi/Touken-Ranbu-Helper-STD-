@@ -221,8 +221,8 @@ a {
 .menu-inner.party.locked {
   filter:brightness(0.5);
 }
-/*.menu-inner.party.normal {
-}*/
+.menu-inner.party.normal {
+}
 .menu-inner.party.conquest {
   border-left: #9c7eff solid;
 }
