@@ -1,5 +1,6 @@
 define((require, exports, module) => {
   let TRHMasterData = require('app/core/master')
+  let TRH = require('app/core/const/index')
   return () => {
     return {
       episode_id: null,

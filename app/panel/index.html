@@ -280,7 +280,7 @@
 		</div>
 		</div>
 		<div class="title" id="practice">· {{ 'PVP' | convert-en-name('Bouts') }} ·</div>
-		<div style="float:left;">*Fatigue levels are just for show in this tool and do not actually apply to {{ PVP | convert-en-name('Bouts') }} battles. All enemy swords will be performing at Normal Fatigue levels.</div>
+		<div style="float:left;">*Fatigue levels are just for show in this tool and do not actually apply to {{ 'PVP' | convert-en-name('Bouts') }} battles. All enemy swords will be performing at Normal Fatigue levels.</div>
 		<div v-if="practice_enemy_party != null" v-for="enemy_sword in practice_enemy_party.slot" class="party-list">
 		<div v-if="enemy_sword.serial_id" class="touken-info">
 			<img :src="practice_enemy_sword[enemy_sword.serial_id].sword_id | sword-pattern" alt="空" class="pattern">
