@@ -6,13 +6,12 @@ return (store) => {
       if (mutation.type === 'repair/updateRepair') {
         let swordSerialId = mutation.payload.updateData.sword_serial_id
         let sword = _.get(state, ['swords', 'serial', swordSerialId])
-        let swordName = (TRH.SwordENGName[sword.sword_id] ? TRH.SwordENGName[sword.sword_id][sword.sword_id] : _.get(TRHMasterData.getMasterData('Sword'), [sword.sword_id, 'name'], '-'))
+        let swordName = (TRH.SwordENGName[sword.sword_id] ? TRH.SwordENGName[sword.sword_id][sword.sword_id] : sword.name)
         let timeout = (_.get(state, ['config', 'timeout'], 3)/2)*1000
         if (timeout<3000){
           timeout = 3000
         }
         store.dispatch('notice/addNotice', {
-          //title: `Ongoing Repair：${sword.name} `,
           title: `Ongoing Repair：${swordName} `,
           message: `End Time: ${moment(parseValues(mutation.payload.updateData.finished_at)).format('MM/DD HH:mm:ss')}`,
           context: moment(parseValues(mutation.payload.updateData.finished_at)).isBefore() ? 'Finished！' : 'Please wait patiently or use a Help Token.',

@@ -15,7 +15,7 @@ define((require, exports, module) => {
               if(status == 2 && moment(parseValues(finished_at)).isBefore(Date.now())) {
                 if(party.isNoticed == false || party.isNoticed == null){
                 store.dispatch('notice/addNotice', {
-                  title: `${party_name} has return from expedition!`,
+                  title: `${party_name} has return!`,
                   message: `End time： ${moment(parseValues(finished_at)).format('HH:mm:ss')}`,
                   context: 'Please recieve them as soon as possible!',
                   renotify: true,

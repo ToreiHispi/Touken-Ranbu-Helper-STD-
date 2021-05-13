@@ -25,8 +25,7 @@ define((require, exports, module) => {
             .mapValues((v, k) => {
               let sword = _.get(state, ['swords', 'serial', v.serial_id], {})
               return _.extend(v, {
-                //name: sword.name,
-				        name: sword.sword_id ? (TRH.SwordENGName[String(sword.sword_id)] ? TRH.SwordENGName[String(sword.sword_id)][String(sword.sword_id)] : _.get(TRHMasterData.getMasterData('Sword'), [sword.sword_id, 'name'], '-')) : '-',
+				        name: sword.sword_id ? (TRH.SwordENGName[String(sword.sword_id)] ? TRH.SwordENGName[String(sword.sword_id)][String(sword.sword_id)] : sword.name) : '-',
                 injury: sword.injury,
                 baseId: sword.baseId,
                 battleStatusText: ['Normal', 'Minor', 'Moderate', 'Severe', 'Retreated', 'Broken'][v.battleStatus]
@@ -88,22 +87,18 @@ define((require, exports, module) => {
 				        equipstring += '['+(v.equip[3] ? TRH.EquipENGName[v.equip[3]] : '-')+'] '
               return {
                 serial_id: v.serial_id,
-                //name: sword.name,
-				        name: sword.sword_id ? (TRH.SwordENGName[sword.sword_id] ? TRH.SwordENGName[sword.sword_id][sword.sword_id] : _.get(TRHMasterData.getMasterData('Sword'), [sword.sword_id, 'name'], '-')) : '-',
+				        name: sword.sword_id ? (TRH.SwordENGName[sword.sword_id] ? TRH.SwordENGName[sword.sword_id][sword.sword_id] : sword.name) : '-',
                 equips: equipstring
               }
             })
             .values()
             .value()
-          //let swordName = _.get(TRHMasterData.getMasterData('Sword'), [getSwordId, 'name'], '无')
-		      let swordName = (getSwordId>0 ? (TRH.SwordENGName[getSwordId] ? TRH.SwordENGName[getSwordId]['full'] : _.get(TRHMasterData.getMasterData('Sword'), [getSwordId, 'name'], '无')): 'None')
+          let swordName = (getSwordId>0 ? (TRH.SwordENGName[getSwordId] ? TRH.SwordENGName[getSwordId]['full'] : _.get(TRHMasterData.getMasterData('Sword'), [getSwordId, 'name'], '无')): 'None')
           if (getInstrumentId!=0){
             if(getSwordId!=0){
-              //swordName+=" & "+ _.get(TRHMasterData.getMasterData('Consumable'), [getInstrumentId, 'name'], '-')
-			        swordName+=" & "+ getInstrumentId ? (TRH.ItemENGName[getInstrumentId] ? TRH.ItemENGName[getInstrumentId] : _.get(TRHMasterData.getMasterData('Consumable'), [getInstrumentId, 'name'], '-')) : '-'
+              swordName+=" & "+ getInstrumentId ? (TRH.ItemENGName[getInstrumentId] ? TRH.ItemENGName[getInstrumentId] : _.get(TRHMasterData.getMasterData('Consumable'), [getInstrumentId, 'name'], '-')) : '-'
             }else{
-              //swordName= _.get(TRHMasterData.getMasterData('Consumable'), [getInstrumentId, 'name'], '-')
-			        swordName= getInstrumentId ? (TRH.ItemENGName[getInstrumentId] ? TRH.ItemENGName[getInstrumentId] : _.get(TRHMasterData.getMasterData('Consumable'), [getInstrumentId, 'name'], '-')) : '-'
+              swordName= getInstrumentId ? (TRH.ItemENGName[getInstrumentId] ? TRH.ItemENGName[getInstrumentId] : _.get(TRHMasterData.getMasterData('Consumable'), [getInstrumentId, 'name'], '-')) : '-'
               getSwordId = 'item'+getInstrumentId
             }
           }

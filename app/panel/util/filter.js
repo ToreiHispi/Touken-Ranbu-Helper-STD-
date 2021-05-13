@@ -4,6 +4,9 @@ define((require, exports, module) => {
   const TRH = require('app/core/const/index')
 
   exports.battleStatusText = Vue.filter('battle-status-text', function (statusId) {
+    if (/^[A-Za-z]+/.test(_.get(TRHMasterData.getMasterData('Sword'), [3, 'name'], '-'))) {
+      return ['Sortie', 'Light', 'Major', 'Severe', 'Broken'][statusId]
+    }
     return ['Sortie', 'Minor', 'Moderate', 'Severe', 'Broken'][statusId]
   })
 
@@ -253,7 +256,6 @@ define((require, exports, module) => {
 
   exports.itemNameFormat = Vue.filter('item-name-format', (ConsumableId) => {
     let name = _.get(TRHMasterData.getMasterData('Consumable'), [ConsumableId, 'name'], '-')
-    //return name.replace('御札・', '')
 	  return name
   })
   
@@ -412,7 +414,7 @@ define((require, exports, module) => {
   })
   
   exports.missionStatus = Vue.filter('mission-status', (statusNo) => {
-    let statusList = ['','Open', 'Pending', 'Closed']
+    let statusList = ['', 'Open', 'Unclaimed', 'Closed']
     return statusList[statusNo]
   })
   
@@ -425,5 +427,12 @@ define((require, exports, module) => {
     }
     let eventList = ['','Underground Treasure Chest','War Training Expansion','Village of Treasures - Instrument Gathering Stage','Regiment Battle','Edo Castle Infiltration Investigation','Delicious Dango Chasing Rabbit Village','Hidden Demon Extermination in the Capital','Special Investigation: Jurakutei','Special Investigation: Bunkyuu','Special Investigation: Tenpou Edo','Special Investigation: Keichou Kumamoto','Operation: Recapture the Night Flower','Village of Treasures - Flower Gathering Stage','Special Investigation: Keiou Koufu']
     return eventList[type] ? eventList[type] : EvName
+  })
+
+  exports.convertENName = Vue.filter('convert-en-name', (JPterm, ENterm) => {
+    if (/^[A-Za-z]+/.test(_.get(TRHMasterData.getMasterData('Sword'), [3, 'name'], '-'))) {
+      return ENterm
+    }
+    return JPterm
   })
 })
