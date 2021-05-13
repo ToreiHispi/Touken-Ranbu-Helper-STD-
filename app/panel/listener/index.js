@@ -70,6 +70,11 @@ define((require, exports, module) => {
             request.getContent((content, encoding) => {
               TRHMasterData.init(content, store)
             })
+          } //For EN Server which has a different address for master data location
+          else if (request.request.url.match(/https?:\/\/di8gqwgwl5tav\.cloudfront\.net\/d\/en\/m_(.*?)\.bin/)) {
+            request.getContent((content, encoding) => {
+              TRHMasterData.init(content, store)
+            })
           }
         }
       })
