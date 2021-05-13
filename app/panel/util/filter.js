@@ -24,6 +24,10 @@ define((require, exports, module) => {
   })
   
   exports.equipNameFormat = Vue.filter('equip-name-format', (name) => {
+    if (/^[A-Za-z]+/.test(name)) {
+      return name.replace(' - Gold','').replace(' - Silver','').replace(' - Bronze','').replace(/\d+/, '').trim()
+    }
+    
     if (!name) {
       //For PVP list
       return
@@ -166,7 +170,7 @@ define((require, exports, module) => {
       'A',
       'B',
       'C',
-      'Fail'
+      'Lost'
     ][rank] || ''
   })
 
@@ -183,6 +187,10 @@ define((require, exports, module) => {
   })
 
   exports.swordName = Vue.filter('sword-name', (swordId) => {
+    if (/^[A-Za-z]+/.test(_.get(TRHMasterData.getMasterData('Sword'), [swordId, 'name'], '-'))) {
+      return _.get(TRHMasterData.getMasterData('Sword'), [swordId, 'name'], '-')
+    }
+
     let name = swordId ? _.get(TRHMasterData.getMasterData('Sword'), [swordId, 'name'], '-') : '空'
     return name == '-' ? '空' : name
   })
@@ -192,6 +200,11 @@ define((require, exports, module) => {
   })
 
   exports.equipName = Vue.filter('equip-name', (equipId) => {
+    if (/^[0-9A-Za-z]+/.test( _.get(TRHMasterData.getMasterData('Equip'), [equipId, 'name'], '-'))) {
+      console.log( _.get(TRHMasterData.getMasterData('Equip'), [equipId, 'name'], '-'))
+      return _.get(TRHMasterData.getMasterData('Equip'), [equipId, 'name'], '-')
+    }
+
     return equipId ? _.get(TRHMasterData.getMasterData('Equip'), [equipId, 'name'], '-') : '空'
   })
 
@@ -210,10 +223,14 @@ define((require, exports, module) => {
   exports.allEquipSerialName = Vue.filter('all-equip-serial-name', (serialIds) => {
     serialArr = _.map(serialIds, function (serialId) {
       let names = _.get(store.state, ['equip', 'serial', serialId, 'name'], '-')
+      console.log(names)
       let typeId = (_.find(TRHMasterData.getMasterData('Equip'), ['name', names]) ? _.find((TRHMasterData.getMasterData('Equip')), ['name', names])['type'] : 0 )
       let equipId = (_.find(TRHMasterData.getMasterData('Equip'), ['name', names]) ? _.find((TRHMasterData.getMasterData('Equip')), ['name', names])['equipId'] : 0 )
       if (names.indexOf('･') > -1) {
         return TRH.EquipENGName[String(equipId)]
+      } else if (names.indexOf('-') > -1) {
+        //For EN Server
+        return names.replace(' - Bronze','·B').replace(' - Silver','·S').replace(' - Gold','·G')
       }
       if (typeId == 0) {
         return '-'
@@ -235,6 +252,10 @@ define((require, exports, module) => {
   
   exports.convertSwordNo = Vue.filter('convert-sword-no', (swordID) => {
     if (swordID) {
+      if (/^[A-Za-z]+/.test(_.get(TRHMasterData.getMasterData('Sword'), [swordID, 'name'], '-'))) {
+        return _.get(TRHMasterData.getMasterData('Sword'), [swordID, 'name'], '-')
+      }
+
       let name = ""
       if (TRH.SwordENGName[swordID]) {
         name = TRH.SwordENGName[swordID][swordID] + (_.get(TRHMasterData.getMasterData('Sword'), [swordID, 'symbol'], 0) === 2 ? '·🥝' : '')
@@ -249,6 +270,10 @@ define((require, exports, module) => {
   })
   
   exports.convertSwordSerial = Vue.filter('convert-sword-serial', (swordSerialID) => {
+    if (/^[A-Za-z]+/.test(_.get(store.state, ['swords', 'serial', swordSerialID, 'name'], 0))) {
+      return _.get(store.state, ['swords', 'serial', swordSerialID, 'name'], 0)
+    }
+
     let swordID = String(_.get(store.state, ['swords', 'serial', swordSerialID, 'sword_id'], 0))
     let name = ""
     if (TRH.SwordENGName[swordID]) {
@@ -261,6 +286,11 @@ define((require, exports, module) => {
   })
   
   exports.convertSwordName = Vue.filter('convert-sword-name', (SName) => {
+    //For EN Server on Johren.net which uses Latin-based character names, so no need to convert
+    if (/^[A-Za-z]+/.test(SName)) {
+      return SName
+    }
+
     if (SName=="None" || SName=='空') {
       return SName
     }
@@ -312,11 +342,19 @@ define((require, exports, module) => {
   })
   
   exports.convertEquipName = Vue.filter('convert-equip-name', (EqName) => {
+    console.log(EqName)
+    if (/^[A-Za-z]+/.test(EqName.replace('H.','Heavy').replace('L.','Light'))) {
+      return EqName.replace('H.','Heavy').replace('L.','Light')
+    } else if (/^\d\d[A-Za-z ]+/.test(EqName)) {
+      return EqName
+    }
+    
     if (!EqName) {
       //For PVP
       return
     }
     if (_.find(TRHMasterData.getMasterData('Equip'), ['description', EqName])) {
+      //console.log(_.find(TRHMasterData.getMasterData('Equip'), ['description', EqName]));
       // Troops Equipped
       let typeID = (_.find(TRHMasterData.getMasterData('Equip'), ['description', EqName]) ? _.find((TRHMasterData.getMasterData('Equip')), ['description', EqName])['type'] : 0 )
       return (typeID ? (TRH.EquipENGType[String(typeID)] ? TRH.EquipENGType[String(typeID)] : EqName) : '空')
@@ -340,10 +378,15 @@ define((require, exports, module) => {
   })
   
   exports.convertItemName = Vue.filter('convert-item-name', (itemID) => {
+    if (/^[A-Za-z]+/.test(_.get(TRHMasterData.getMasterData('Consumable'), [itemID, 'name'], '-'))) {
+      return _.get(TRHMasterData.getMasterData('Consumable'), [itemID, 'name'], '-')
+    }
+
     return TRH.ItemENGName[String(itemID)] ? TRH.ItemENGName[String(itemID)] : _.get(TRHMasterData.getMasterData('Consumable'), [itemID, 'name'], '-')
   })
   
   exports.convertEnemyName = Vue.filter('convert-enemy-name', (EName) => {
+    console.log(EName);
     //Suffixes
     let rank = EName.replace('_丙',' C').replace('_乙',' B').replace('_甲',' A').replace('_放免','').replace('(甲)','')
     
