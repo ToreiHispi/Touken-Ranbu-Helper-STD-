@@ -13,8 +13,8 @@ chrome.devtools.inspectedWindow.eval('window.location.href', {}, function (resul
           type: 'notify',
           message: {
             title: 'Welcome to ~TRH~',
-            message: 'Please find the new "Touken Ranbu Helper (STD EN)" tab in the Dev panel.',
-            context: 'Build version： 1.8.0'
+            message: 'Please find the new "Touken Ranbu Helper (STD)" tab in the Dev panel.',
+            context: 'Build version： 1.2.3'
           }
         })
       }

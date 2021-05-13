@@ -639,41 +639,41 @@ define((require, exports, module) => {
 		EID = parseInt('-' + evcont.event_id)
 	  }
 
-	  store.commit('event/updateEventID', {
+	  /*store.commit('event/updateEventID', {
 		event_id: EID
-	  })
+	  })*/
 
 	  let event_info = {
 		episodeId: EID ? EID : null,
 		name: _.get(TRHMasterData.getMasterData('Event'), [EID, 'name'], null),
 		type: _.get(TRHMasterData.getMasterData('Event'), [EID, 'type'], null)
 	  }
-	  store.commit('event/updateEventType', {
+	  /*store.commit('event/updateEventType', {
 		updateData: event_info
-	  })
-      let eventContent = {
-        episode_id: EID,
-        field_id: evcont.event_field_id,
-		square_id: 1,
-        layer_num: content.select_event_layer_num ? content.select_event_layer_num : 1
-      }
-      let eventType = _.get(TRHMasterData.getMasterData('Event'), [EID, 'type'], 0)
+	  })*/
+    let eventContent = {
+      episode_id: EID,
+      field_id: evcont.event_field_id,
+		  square_id: 1,
+      layer_num: content.select_event_layer_num ? content.select_event_layer_num : 1
+    }
+    let eventType = _.get(TRHMasterData.getMasterData('Event'), [EID, 'type'], 0)
 
 	  //These maps have other layers
-      if(eventType==6 || eventType==8 || eventType==9){
-        eventContent.layer_num = content.select_event_layer_num
-      }
-      store.commit('sally/updateSally', {
-        updateData: eventContent
-      })
+    if(eventType==6 || eventType==8 || eventType==9){
+      eventContent.layer_num = content.select_event_layer_num
+    }
+    store.commit('sally/updateSally', {
+      updateData: eventContent
+    })
 	  
-      //Runs 'sally/sally' router for battle related updates (i.e. fatigue or equips)
+    //Runs 'sally/sally' router for battle related updates (i.e. fatigue or equips)
 	  this['sally/sally'] (content)
-      if(eventType==4){
-        store.commit('sally/updateSally', {
-          updateData: {square_id: "0"}
-        })
-      }
+    if(eventType==4){
+      store.commit('sally/updateSally', {
+        updateData: {square_id: "0"}
+      })
+    }
 	  else {
 		store.commit('sally/updateSally', {
           updateData: {square_id: "1"}
@@ -814,18 +814,21 @@ define((require, exports, module) => {
 	  if (content.event_id) {
 		EID = content.event_id*(-1)
 	  }
+    /*
 	  store.commit('event/updateEventID', {
 		event_id: EID
-	  })
+	  })*/
 	  
 	  let event_info = {
 		episodeId: EID ? EID : 0,
 		name: _.get(TRHMasterData.getMasterData('Event'), [EID, 'name'], ' '),
 		type: _.get(TRHMasterData.getMasterData('Event'), [EID, 'type'], 0)
 	  }
+    /*
 	  store.commit('event/updateEventType', {
 		updateData: event_info
 	  })
+    */
 	  
 	  let EvoCont = content.evolution.back
 	  store.commit('evolution/updateEvolution', {
