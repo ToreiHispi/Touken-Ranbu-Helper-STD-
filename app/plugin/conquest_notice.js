@@ -4,7 +4,7 @@ define((require, exports, module) => {
       if (state.config.conquest_notice == true) {
         if (mutation.type === 'party/updateParty') {
           let party_nameJPN = mutation.payload.updateData.party_name
-		  let party_name = party_nameJPN.replace('第','Team ').replace('部隊','')
+		      let party_name = party_nameJPN.replace('第','Team ').replace('部隊','')
           let status = mutation.payload.updateData.status
           let finished_at = mutation.payload.updateData.finished_at
           let party = _.get(state, ['party', 'parties', mutation.payload.updateData.party_no])

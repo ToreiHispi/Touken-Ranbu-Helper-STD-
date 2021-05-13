@@ -7,6 +7,6 @@ define((require, exports, module) => {
     '5': 'Wide',
     '6': 'Vertical',
     '7': 'Horizontal',
-	'10': 'Short'
+	  '10': 'Short'
   }
 })

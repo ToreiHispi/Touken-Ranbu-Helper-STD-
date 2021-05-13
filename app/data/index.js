@@ -17,15 +17,18 @@ define((require, exports, module) => {
       return {
         inBattle: false,
         secretary: 3,
+        UIDs: {},
         dataLoaded: {}
       }
     },
     mutations: {
       inBattle (state) {
         state.inBattle = true
+
       },
       notInBattle (state) {
         state.inBattle = false
+
       },
       fatigueToV (state) {
 		// Fatigue after entering practice match (no loss of fatigue)
@@ -41,6 +44,16 @@ define((require, exports, module) => {
         for(let s in swords) {
           let sword = swords[s]
           sword.battleFatigue = Math.max(sword.vfatigue - 10, 0)
+        }
+      },
+      UId (state, payload) {
+        let { path_uid, UID } = payload
+        if (!state.uid) {
+          Vue.set(state, 'uid', UID)
+          console.log(state)
+          /*if (!state.UIDs[UID]) {
+            Vue.set(state.UIDs, UID, {inBattle:false, secretary:3, dataLoaded:{}})
+          }*/
         }
       },
       loadData (state, payload) {

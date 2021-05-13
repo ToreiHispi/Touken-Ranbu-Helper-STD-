@@ -148,46 +148,6 @@ define((require, exports, module) => {
       }
 	}
   })
-  
-  Vue.component('pvp_offer_1', {
-	template: '#pvp1',
-	props: [],
-	computed: {
-	  
-	}
-  })
-  
-  Vue.component('pvp_offer_2', {
-	template: '#pvp2',
-	props: [],
-	computed: {
-	  
-	}
-  })
-  
-  Vue.component('pvp_offer_3', {
-	template: '#pvp3',
-	props: [],
-	computed: {
-	  
-	}
-  })
-  
-  Vue.component('pvp_offer_4', {
-	template: '#pvp4',
-	props: [],
-	computed: {
-	  
-	}
-  })
-  
-  Vue.component('pvp_offer_5', {
-	template: '#pvp5',
-	props: [],
-	computed: {
-	  
-	}
-  })
 
   const partyListWrapper = {
     template: `

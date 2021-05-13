@@ -184,6 +184,18 @@ define((require, exports, module) => {
 	'186': {'186': 'Chiganemaru','full': 'Chiganemaru'},
 	'187': {'187': 'Chiganemaru','full': 'Chiganemaru'},
 	'188': {'188': 'Nikkou','full': 'Nikkou Ichimonji'},
-	'189': {'189': 'Nikkou','full': 'Nikkou Ichimonji'}
+	'189': {'189': 'Nikkou','full': 'Nikkou Ichimonji'},
+	'190': {'190': 'Taikou','full': 'Taiko Samonji'},
+	'191': {'191': 'Taikou','full': 'Taiko Samonji'},
+	'192': {'192': 'Samidare','full': 'Samidare Gou'},
+	'193': {'193': 'Samidare','full': 'Samidare Gou'},
+	'194': {'194': 'Oochidori','full': 'Oochidori Juumonji Yari'},
+	'195': {'195': 'Oochidori','full': 'Oochidori Juumonji Yari'},
+	'196': {'196': 'Hanjin','full': 'Hanjin'},
+	'197': {'197': 'Hanjin','full': 'Hanjin'},
+	'198': {'198': 'Norimune','full': 'Ichimonji Norimune'},
+	'199': {'199': 'Norimune','full': 'Ichimonji Norimune'},
+	'200': {'200': 'Murakumo','full': 'Murakumo Gou'},
+	'201': {'201': 'Murakumo','full': 'Murakumo Gou'}
   }
 })

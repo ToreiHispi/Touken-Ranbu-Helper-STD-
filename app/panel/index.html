@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>TRH Final English</title>
+	<title>TRH Standard English</title>
 	<link rel="stylesheet" href="../../static/style/normalize.css">
 	<link rel="stylesheet" href="../../static/style/appmain.css">
 </head>
@@ -544,7 +544,7 @@
 			</thead>
 			<tbody>
 			<tr v-for="con in item.consumable" v-if="con.num">
-				<td>{{ con.name | convert-item-name }}</td>
+				<td>{{ con.consumable_id | convert-item-name }}</td>
 				<td>{{ con.num || '-' }}</td>
 				<td v-if="option.limits" v-text="con.limitNum || '-'"></td></td>
 			</tr>
@@ -621,7 +621,7 @@
 				<td>{{ forge.steel || '-' }}</td>
 				<td>{{ forge.coolant || '-' }}</td>
 				<td>{{ forge.file || '-' }}</td>
-				<td>{{ forge.consumable_id | item-name-format | convert-item-name}}</td>
+				<td>{{ forge.consumable_id | convert-item-name}}</td>
 				<td>{{ forge.finished_at | MMDDhhmmss }}</td>
 			</tr>
 			</tbody>
