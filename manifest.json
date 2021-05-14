@@ -13,7 +13,7 @@
   },
   "content_scripts": [
     {
-      "matches": ["*://pc-play.games.dmm.com/play/tohken/*"],
+      "matches": ["*://pc-play.games.dmm.com/play/tohken/*","*://johren.net/games/tohken-en/play/*"],
       "js": ["bridge/detect.js"],
       "run_at": "document_start"
     }
